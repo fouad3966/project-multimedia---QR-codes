@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Simulator — 177×177 Pixels That Hold the Internet</title>
+    <meta name="description" content="Interactive QR code simulation: explore encoding, Reed-Solomon error correction, mask patterns, and build your own QR codes in real-time.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating particles background -->
+    <div id="particles-bg"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="nav-brand">
+            <span class="nav-icon">⬛</span>
+            <span class="nav-title">QR Simulator</span>
+        </div>
+        <div class="nav-links">
+            <a href="#hero" class="nav-link active">Home</a>
+            <a href="#anatomy" class="nav-link">Anatomy</a>
+            <a href="#encoding-modes" class="nav-link">Modes</a>
+            <a href="#pipeline" class="nav-link">Pipeline</a>
+            <a href="#reed-solomon" class="nav-link">ECC</a>
+            <a href="#masks" class="nav-link">Masks</a>
+            <a href="#decoding" class="nav-link">Decoding</a>
+            <a href="#generator" class="nav-link">Generator</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="section hero-section">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Interactive Simulation</div>
+            <h1>The QR Code</h1>
+            <p class="hero-subtitle">177×177 Pixels That Hold the Internet</p>
+            <p class="hero-desc">Behind every black-and-white square lies a fascinating algorithm combining redundancy, error correction, and binary encoding. Explore the full process interactively.</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-number" data-count="7089">0</span>
+                    <span class="stat-label">Max Digits</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="40">0</span>
+                    <span class="stat-label">Versions</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="4">0</span>
+                    <span class="stat-label">ECC Levels</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-count="8">0</span>
+                    <span class="stat-label">Mask Patterns</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="#pipeline" class="btn btn-primary">
+                    <span>▶</span> Start Simulation
+                </a>
+                <a href="#anatomy" class="btn btn-secondary">
+                    <span>🔍</span> Explore Anatomy
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <canvas id="hero-qr-canvas" width="350" height="350"></canvas>
+            <div class="hero-qr-label">Hover to explore regions</div>
+        </div>
+    </section>
+
+    <!-- What is a QR Code -->
+    <section id="what-is" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Fundamentals</span>
+                <h2>What Is a QR Code?</h2>
+                <p class="section-desc">A two-dimensional matrix barcode invented in 1994 by Denso Wave for tracking automotive parts. Today it powers payments, menus, authentication, and ticketing worldwide.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon">▦</div>
+                    <h3>2D Matrix Structure</h3>
+                    <p>Grid of black and white square modules arranged in precise patterns to encode information</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-delay="100">
+                    <div class="feature-icon">📐</div>
+                    <h3>40 Versions</h3>
+                    <p>From Version 1 (21×21) to Version 40 (177×177) scaling with content complexity</p>
+                    <div class="version-mini-demo">
+                        <div class="mini-grid v1" title="Version 1: 21×21"></div>
+                        <div class="mini-grid v5" title="Version 5: 37×37"></div>
+                        <div class="mini-grid v10" title="Version 10: 57×57"></div>
+                        <div class="mini-grid v40" title="Version 40: 177×177"></div>
+                    </div>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-delay="200">
+                    <div class="feature-icon">💾</div>
+                    <h3>Massive Capacity</h3>
+                    <p>Up to 7,089 digits or 4,296 alphanumeric characters in a thumbnail-sized space</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-delay="300">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Error Correction</h3>
+                    <p>Four levels: L (7%), M (15%), Q (25%), H (30%) allowing reconstruction when damaged</p>
+                    <div class="ecc-bar-demo">
+                        <div class="ecc-bar" style="--w:7%"><span>L 7%</span></div>
+                        <div class="ecc-bar" style="--w:15%"><span>M 15%</span></div>
+                        <div class="ecc-bar" style="--w:25%"><span>Q 25%</span></div>
+                        <div class="ecc-bar" style="--w:30%"><span>H 30%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anatomy Section -->
+    <section id="anatomy" class="section section-dark">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Structure</span>
+                <h2>Anatomy of a QR Code</h2>
+                <p class="section-desc">Every QR code contains precisely positioned structural elements. Click each component to highlight it on the interactive diagram.</p>
+            </div>
+            <div class="anatomy-layout">
+                <div class="anatomy-canvas-wrapper">
+                    <canvas id="anatomy-canvas" width="450" height="450"></canvas>
+                    <div id="anatomy-tooltip" class="anatomy-tooltip"></div>
+                </div>
+                <div class="anatomy-legend">
+                    <button class="anatomy-btn active" data-part="finder">
+                        <span class="anatomy-color" style="background:#FF6B6B"></span>
+                        <div>
+                            <strong>1. Finder Patterns</strong>
+                            <p>Three distinctive squares at corners for instant location and orientation detection</p>
+                        </div>
+                    </button>
+                    <button class="anatomy-btn" data-part="timing">
+                        <span class="anatomy-color" style="background:#4ECDC4"></span>
+                        <div>
+                            <strong>2. Timing Patterns</strong>
+                            <p>Alternating black-white lines calibrating grid spacing and module size</p>
+                        </div>
+                    </button>
+                    <button class="anatomy-btn" data-part="alignment">
+                        <span class="anatomy-color" style="background:#45B7D1"></span>
+                        <div>
+                            <strong>3. Alignment Patterns</strong>
+                            <p>Additional squares correcting perspective distortion in larger versions (≥V2)</p>
+                        </div>
+                    </button>
+                    <button class="anatomy-btn" data-part="format">
+                        <span class="anatomy-color" style="background:#F7DC6F"></span>
+                        <div>
+                            <strong>4. Format Information</strong>
+                            <p>Encodes error correction level and applied mask pattern for decoding</p>
+                        </div>
+                    </button>
+                    <button class="anatomy-btn" data-part="data">
+                        <span class="anatomy-color" style="background:#BB8FCE"></span>
+                        <div>
+                            <strong>5. Data + ECC Modules</strong>
+                            <p>Actual content with Reed-Solomon error correction redundancy</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Encoding Modes -->
+    <section id="encoding-modes" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Encoding</span>
+                <h2>The Four Encoding Modes</h2>
+                <p class="section-desc">QR codes automatically select the most efficient encoding based on content type. Type below to see which mode is optimal.</p>
+            </div>
+            <div class="modes-interactive">
+                <div class="mode-tester">
+                    <label for="mode-input">Test your input:</label>
+                    <input type="text" id="mode-input" placeholder="Type anything... try numbers, letters, or symbols" autocomplete="off">
+                    <div id="mode-result" class="mode-result">
+                        <div class="mode-result-label">Detected Mode:</div>
+                        <div class="mode-result-value" id="detected-mode">—</div>
+                        <div class="mode-result-bits" id="detected-bits">Enter text above</div>
+                    </div>
+                </div>
+                <div class="modes-table-wrapper">
+                    <table class="modes-table">
+                        <thead>
+                            <tr>
+                                <th>Mode</th>
+                                <th>Supported Characters</th>
+                                <th>Density</th>
+                                <th>Indicator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="mode-numeric" class="mode-row">
+                                <td><span class="mode-badge numeric">Numeric</span></td>
+                                <td>0–9 digits only</td>
+                                <td>3.33 bits/char</td>
+                                <td><code>0001</code></td>
+                            </tr>
+                            <tr id="mode-alphanumeric" class="mode-row">
+                                <td><span class="mode-badge alphanumeric">Alphanumeric</span></td>
+                                <td>0–9, A–Z, space, $ % * + - . / :</td>
+                                <td>5.5 bits/char</td>
+                                <td><code>0010</code></td>
+                            </tr>
+                            <tr id="mode-byte" class="mode-row">
+                                <td><span class="mode-badge byte">Byte</span></td>
+                                <td>UTF-8, Latin-1 characters</td>
+                                <td>8 bits/char</td>
+                                <td><code>0100</code></td>
+                            </tr>
+                            <tr id="mode-kanji" class="mode-row">
+                                <td><span class="mode-badge kanji">Kanji</span></td>
+                                <td>Shift JIS Japanese characters</td>
+                                <td>13 bits/char</td>
+                                <td><code>1000</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Encoding Pipeline -->
+    <section id="pipeline" class="section section-dark">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Process Simulation</span>
+                <h2>The Encoding Pipeline</h2>
+                <p class="section-desc">Watch the 7-step transformation from text to scannable matrix. Enter text and step through each phase.</p>
+            </div>
+            <div class="pipeline-controls">
+                <div class="pipeline-input-group">
+                    <input type="text" id="pipeline-input" placeholder="Enter text to encode (e.g. HELLO)" value="HELLO" maxlength="20">
+                    <button id="pipeline-start" class="btn btn-primary">
+                        <span>▶</span> Start Pipeline
+                    </button>
+                </div>
+                <div class="pipeline-step-controls">
+                    <button id="pipeline-prev" class="btn btn-icon" disabled>◀ Prev</button>
+                    <span id="pipeline-step-label">Step 0 / 7</span>
+                    <button id="pipeline-next" class="btn btn-icon" disabled>Next ▶</button>
+                    <button id="pipeline-auto" class="btn btn-secondary">⏩ Auto Play</button>
+                </div>
+            </div>
+            <div class="pipeline-visualization">
+                <div class="pipeline-steps-track">
+                    <div class="pipeline-step" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Content Analysis</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Data Encoding</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Header Addition</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-title">ECC Calculation</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Interleaving</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="6">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Mask Application</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="pipeline-step" data-step="7">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Matrix Final</div>
+                        <div class="step-line"></div>
+                    </div>
+                </div>
+                <div class="pipeline-detail-panel" id="pipeline-detail">
+                    <div class="pipeline-placeholder">
+                        <div class="placeholder-icon">⚡</div>
+                        <p>Press <strong>Start Pipeline</strong> or type text and step through each encoding phase</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reed-Solomon -->
+    <section id="reed-solomon" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Error Correction</span>
+                <h2>Reed-Solomon: The Magic of Error Correction</h2>
+                <p class="section-desc">Based on Galois field arithmetic (GF(256)), this algorithm reconstructs data even when up to 30% is destroyed. Click modules below to "damage" the QR code and watch it recover.</p>
+            </div>
+            <div class="rs-demo-layout">
+                <div class="rs-canvas-area">
+                    <canvas id="rs-canvas" width="300" height="300"></canvas>
+                    <div class="rs-controls">
+                        <button id="rs-damage-btn" class="btn btn-danger">💥 Damage Random Area</button>
+                        <button id="rs-recover-btn" class="btn btn-primary">🔧 Recover Data</button>
+                        <button id="rs-reset-btn" class="btn btn-secondary">↺ Reset</button>
+                    </div>
+                    <div class="rs-meter">
+                        <div class="rs-meter-label">Damage Level:</div>
+                        <div class="rs-meter-bar">
+                            <div class="rs-meter-fill" id="rs-meter-fill" style="width:0%"></div>
+                        </div>
+                        <span class="rs-meter-pct" id="rs-meter-pct">0%</span>
+                    </div>
+                </div>
+                <div class="rs-info-panel">
+                    <div class="rs-info-card">
+                        <h3>🧮 Mathematical Foundation</h3>
+                        <p>Polynomial interpolation over finite fields (Galois Field GF(2⁸)) enables data reconstruction from partial information.</p>
+                        <div class="rs-formula">
+                            <code>P(x) = a₀ + a₁x + a₂x² + ... + aₖ₋₁xᵏ⁻¹</code>
+                        </div>
+                    </div>
+                    <div class="rs-info-card">
+                        <h3>🌍 Proven Technology</h3>
+                        <p>Also used in CDs, DVDs, Blu-ray discs, deep space transmissions (Voyager), and digital television since the 1960s.</p>
+                    </div>
+                    <div class="rs-info-card highlight">
+                        <h3>💡 Real-World Example</h3>
+                        <p>A QR code with a <strong>logo embedded in its center</strong> remains scannable thanks to intentional exploitation of error correction capacity at level H (30%).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masks & Penalty -->
+    <section id="masks" class="section section-dark">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Optimization</span>
+                <h2>The 8 Masks & Penalty Scoring</h2>
+                <p class="section-desc">An XOR mask avoids patterns that confuse scanners. Toggle masks below to see their effect and penalty scores.</p>
+            </div>
+            <div class="masks-layout">
+                <div class="masks-grid-panel">
+                    <canvas id="mask-canvas" width="350" height="350"></canvas>
+                    <div class="mask-selector">
+                        <button class="mask-btn active" data-mask="0">Mask 0</button>
+                        <button class="mask-btn" data-mask="1">Mask 1</button>
+                        <button class="mask-btn" data-mask="2">Mask 2</button>
+                        <button class="mask-btn" data-mask="3">Mask 3</button>
+                        <button class="mask-btn" data-mask="4">Mask 4</button>
+                        <button class="mask-btn" data-mask="5">Mask 5</button>
+                        <button class="mask-btn" data-mask="6">Mask 6</button>
+                        <button class="mask-btn" data-mask="7">Mask 7</button>
+                    </div>
+                    <div class="mask-formula" id="mask-formula">
+                        Formula: (row + column) mod 2 == 0
+                    </div>
+                </div>
+                <div class="penalty-rules">
+                    <div class="penalty-card">
+                        <div class="penalty-number">01</div>
+                        <h3>Rule 1: Large Areas</h3>
+                        <p>Penalizes runs of 5+ same-color modules in a row or column</p>
+                        <div class="penalty-score" id="penalty-1">Score: —</div>
+                    </div>
+                    <div class="penalty-card">
+                        <div class="penalty-number">02</div>
+                        <h3>Rule 2: 2×2 Blocks</h3>
+                        <p>Penalizes 2×2 blocks of identical modules</p>
+                        <div class="penalty-score" id="penalty-2">Score: —</div>
+                    </div>
+                    <div class="penalty-card">
+                        <div class="penalty-number">03</div>
+                        <h3>Rule 3: Finder-Like</h3>
+                        <p>Penalizes sequences resembling finder pattern structures</p>
+                        <div class="penalty-score" id="penalty-3">Score: —</div>
+                    </div>
+                    <div class="penalty-card">
+                        <div class="penalty-number">04</div>
+                        <h3>Rule 4: Imbalance</h3>
+                        <p>Penalizes deviation from 50% black/white balance</p>
+                        <div class="penalty-score" id="penalty-4">Score: —</div>
+                    </div>
+                    <div class="penalty-total">
+                        Total Penalty: <span id="penalty-total">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decoding Process -->
+    <section id="decoding" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Reverse Process</span>
+                <h2>The Decoding Process</h2>
+                <p class="section-desc">Scanning reverses the encoding pipeline. Click through each decoding step to see how your phone reads a QR code.</p>
+            </div>
+            <div class="decoding-timeline">
+                <div class="decode-step" data-decode="1">
+                    <div class="decode-marker">
+                        <div class="decode-icon">📷</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>1. Detection & Localization</h3>
+                        <p>Camera captures image. Finder patterns (the three big squares) are identified using their unique 1:1:3:1:1 ratio. Orientation determined.</p>
+                        <div class="decode-visual" id="decode-vis-1">
+                            <canvas width="200" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="2">
+                    <div class="decode-marker">
+                        <div class="decode-icon">🔲</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>2. Perspective Correction</h3>
+                        <p>Homography transformation applied to correct skew, tilt, and distortion from viewing angle.</p>
+                        <div class="decode-visual" id="decode-vis-2">
+                            <canvas width="200" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="3">
+                    <div class="decode-marker">
+                        <div class="decode-icon">🔳</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>3. Grid Sampling</h3>
+                        <p>Modules extracted from calibrated grid positions. Timing patterns used to confirm module boundaries.</p>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="4">
+                    <div class="decode-marker">
+                        <div class="decode-icon">📋</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>4. Format Reading</h3>
+                        <p>Mask pattern and ECC level extracted from format information bits adjacent to finder patterns.</p>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="5">
+                    <div class="decode-marker">
+                        <div class="decode-icon">🎭</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>5. Unmasking</h3>
+                        <p>Applied mask reversed using XOR operation, revealing raw data and error correction modules.</p>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="6">
+                    <div class="decode-marker">
+                        <div class="decode-icon">🔧</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>6. Reed-Solomon Decoding</h3>
+                        <p>Data reconstructed, errors detected and corrected using ECC blocks. Damaged modules repaired.</p>
+                    </div>
+                </div>
+                <div class="decode-step" data-decode="7">
+                    <div class="decode-marker">
+                        <div class="decode-icon">✅</div>
+                    </div>
+                    <div class="decode-content">
+                        <h3>7. Final Extraction</h3>
+                        <p>Bitstream decoded according to mode indicator, text/URL delivered to application. Done!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Generator -->
+    <section id="generator" class="section section-dark">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Try It Yourself</span>
+                <h2>Interactive QR Code Generator</h2>
+                <p class="section-desc">Generate real, scannable QR codes. Watch version and capacity update in real-time.</p>
+            </div>
+            <div class="generator-layout">
+                <div class="generator-controls">
+                    <div class="gen-field">
+                        <label for="gen-input">Enter Your Text</label>
+                        <textarea id="gen-input" rows="3" placeholder="Type or paste any content to encode...">Hello, QR World!</textarea>
+                        <div class="gen-char-count"><span id="gen-char-count">16</span> characters</div>
+                    </div>
+                    <div class="gen-field">
+                        <label>Error Correction Level</label>
+                        <div class="ecc-selector">
+                            <button class="ecc-btn" data-ecc="L">L <small>7%</small></button>
+                            <button class="ecc-btn active" data-ecc="M">M <small>15%</small></button>
+                            <button class="ecc-btn" data-ecc="Q">Q <small>25%</small></button>
+                            <button class="ecc-btn" data-ecc="H">H <small>30%</small></button>
+                        </div>
+                    </div>
+                    <div class="gen-info-panel">
+                        <div class="gen-info-item">
+                            <span class="gen-info-label">Version</span>
+                            <span class="gen-info-value" id="gen-version">1</span>
+                        </div>
+                        <div class="gen-info-item">
+                            <span class="gen-info-label">Size</span>
+                            <span class="gen-info-value" id="gen-size">21×21</span>
+                        </div>
+                        <div class="gen-info-item">
+                            <span class="gen-info-label">Mode</span>
+                            <span class="gen-info-value" id="gen-mode">Byte</span>
+                        </div>
+                        <div class="gen-info-item">
+                            <span class="gen-info-label">Modules</span>
+                            <span class="gen-info-value" id="gen-modules">441</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="generator-preview">
+                    <div class="qr-output-frame">
+                        <canvas id="gen-qr-canvas" width="400" height="400"></canvas>
+                    </div>
+                    <button id="gen-download" class="btn btn-primary">📥 Download QR Code</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facts Section -->
+    <section id="facts" class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Key Facts</span>
+                <h2>Advanced Applications</h2>
+            </div>
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <div class="fact-icon">🔄</div>
+                    <h3>Dynamic QR Codes</h3>
+                    <p>Modifiable redirect URLs without changing the physical code — ideal for campaigns and tracking</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🎨</div>
+                    <h3>Styled QR Codes</h3>
+                    <p>Logos and colors embedded by exploiting error correction — up to 30% of modules can be customized</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">⚠️</div>
+                    <h3>Security Risks</h3>
+                    <p>Quishing attacks (QR phishing) redirect to malicious sites — always verify destination before scanning</p>
+                </div>
+            </div>
+            <div class="big-stats">
+                <div class="big-stat">
+                    <div class="big-stat-number">7B</div>
+                    <div class="big-stat-label">Daily Scans (2023)</div>
+                </div>
+                <div class="big-stat">
+                    <div class="big-stat-number">30%</div>
+                    <div class="big-stat-label">Max Repairable Damage</div>
+                </div>
+                <div class="big-stat">
+                    <div class="big-stat-number">1,280</div>
+                    <div class="big-stat-label">Config Combinations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <p>A QR code packs <strong>geometry</strong>, <strong>Galois algebra</strong>, and <strong>information theory</strong> into 2 cm² — mathematics made visible.</p>
+            <p class="footer-sub">Interactive QR Code Simulation — Built for Presentation</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
