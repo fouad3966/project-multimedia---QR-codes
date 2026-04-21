@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Simulator — 177×177 Pixels That Hold the Internet</title>
-    <meta name="description" content="Interactive QR code simulation: explore encoding, Reed-Solomon error correction, mask patterns, and build your own QR codes in real-time.">
+    <meta name="description"
+        content="Interactive QR code simulation: explore encoding, Reed-Solomon error correction, mask patterns, and build your own QR codes in real-time.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Floating particles background -->
     <div id="particles-bg"></div>
@@ -38,7 +43,8 @@
             <div class="hero-badge">Interactive Simulation</div>
             <h1>The QR Code</h1>
             <p class="hero-subtitle">177×177 Pixels That Hold the Internet</p>
-            <p class="hero-desc">Behind every black-and-white square lies a fascinating algorithm combining redundancy, error correction, and binary encoding. Explore the full process interactively.</p>
+            <p class="hero-desc">Behind every black-and-white square lies a fascinating algorithm combining redundancy,
+                error correction, and binary encoding. Explore the full process interactively.</p>
             <div class="hero-stats">
                 <div class="stat-card">
                     <span class="stat-number" data-count="7089">0</span>
@@ -78,7 +84,8 @@
             <div class="section-header">
                 <span class="section-tag">Fundamentals</span>
                 <h2>What Is a QR Code?</h2>
-                <p class="section-desc">A two-dimensional matrix barcode invented in 1994 by Denso Wave for tracking automotive parts. Today it powers payments, menus, authentication, and ticketing worldwide.</p>
+                <p class="section-desc">A two-dimensional matrix barcode invented in 1994 by Denso Wave for tracking
+                    automotive parts. Today it powers payments, menus, authentication, and ticketing worldwide.</p>
             </div>
             <div class="feature-grid">
                 <div class="feature-card" data-aos="fade-up">
@@ -123,7 +130,8 @@
             <div class="section-header">
                 <span class="section-tag">Structure</span>
                 <h2>Anatomy of a QR Code</h2>
-                <p class="section-desc">Every QR code contains precisely positioned structural elements. Click each component to highlight it on the interactive diagram.</p>
+                <p class="section-desc">Every QR code contains precisely positioned structural elements. Click each
+                    component to highlight it on the interactive diagram.</p>
             </div>
             <div class="anatomy-layout">
                 <div class="anatomy-canvas-wrapper">
@@ -177,12 +185,14 @@
             <div class="section-header">
                 <span class="section-tag">Encoding</span>
                 <h2>The Four Encoding Modes</h2>
-                <p class="section-desc">QR codes automatically select the most efficient encoding based on content type. Type below to see which mode is optimal.</p>
+                <p class="section-desc">QR codes automatically select the most efficient encoding based on content type.
+                    Type below to see which mode is optimal.</p>
             </div>
             <div class="modes-interactive">
                 <div class="mode-tester">
                     <label for="mode-input">Test your input:</label>
-                    <input type="text" id="mode-input" placeholder="Type anything... try numbers, letters, or symbols" autocomplete="off">
+                    <input type="text" id="mode-input" placeholder="Type anything... try numbers, letters, or symbols"
+                        autocomplete="off">
                     <div id="mode-result" class="mode-result">
                         <div class="mode-result-label">Detected Mode:</div>
                         <div class="mode-result-value" id="detected-mode">—</div>
@@ -237,11 +247,13 @@
             <div class="section-header">
                 <span class="section-tag">Process Simulation</span>
                 <h2>The Encoding Pipeline</h2>
-                <p class="section-desc">Watch the 7-step transformation from text to scannable matrix. Enter text and step through each phase.</p>
+                <p class="section-desc">Watch the 7-step transformation from text to scannable matrix. Enter text and
+                    step through each phase.</p>
             </div>
             <div class="pipeline-controls">
                 <div class="pipeline-input-group">
-                    <input type="text" id="pipeline-input" placeholder="Enter text to encode (e.g. HELLO)" value="HELLO" maxlength="20">
+                    <input type="text" id="pipeline-input" placeholder="Enter text to encode (e.g. HELLO)" value="HELLO"
+                        maxlength="20">
                     <button id="pipeline-start" class="btn btn-primary">
                         <span>▶</span> Start Pipeline
                     </button>
@@ -307,7 +319,9 @@
             <div class="section-header">
                 <span class="section-tag">Error Correction</span>
                 <h2>Reed-Solomon: The Magic of Error Correction</h2>
-                <p class="section-desc">Based on Galois field arithmetic (GF(256)), this algorithm reconstructs data even when up to 30% is destroyed. Click modules below to "damage" the QR code and watch it recover.</p>
+                <p class="section-desc">Based on Galois field arithmetic (GF(256)), this algorithm reconstructs data
+                    even when up to 30% is destroyed. Click modules below to "damage" the QR code and watch it recover.
+                </p>
             </div>
             <div class="rs-demo-layout">
                 <div class="rs-canvas-area">
@@ -328,18 +342,21 @@
                 <div class="rs-info-panel">
                     <div class="rs-info-card">
                         <h3>🧮 Mathematical Foundation</h3>
-                        <p>Polynomial interpolation over finite fields (Galois Field GF(2⁸)) enables data reconstruction from partial information.</p>
+                        <p>Polynomial interpolation over finite fields (Galois Field GF(2⁸)) enables data reconstruction
+                            from partial information.</p>
                         <div class="rs-formula">
                             <code>P(x) = a₀ + a₁x + a₂x² + ... + aₖ₋₁xᵏ⁻¹</code>
                         </div>
                     </div>
                     <div class="rs-info-card">
                         <h3>🌍 Proven Technology</h3>
-                        <p>Also used in CDs, DVDs, Blu-ray discs, deep space transmissions (Voyager), and digital television since the 1960s.</p>
+                        <p>Also used in CDs, DVDs, Blu-ray discs, deep space transmissions (Voyager), and digital
+                            television since the 1960s.</p>
                     </div>
                     <div class="rs-info-card highlight">
                         <h3>💡 Real-World Example</h3>
-                        <p>A QR code with a <strong>logo embedded in its center</strong> remains scannable thanks to intentional exploitation of error correction capacity at level H (30%).</p>
+                        <p>A QR code with a <strong>logo embedded in its center</strong> remains scannable thanks to
+                            intentional exploitation of error correction capacity at level H (30%).</p>
                     </div>
                 </div>
             </div>
@@ -352,7 +369,8 @@
             <div class="section-header">
                 <span class="section-tag">Optimization</span>
                 <h2>The 8 Masks & Penalty Scoring</h2>
-                <p class="section-desc">An XOR mask avoids patterns that confuse scanners. Toggle masks below to see their effect and penalty scores.</p>
+                <p class="section-desc">An XOR mask avoids patterns that confuse scanners. Toggle masks below to see
+                    their effect and penalty scores.</p>
             </div>
             <div class="masks-layout">
                 <div class="masks-grid-panel">
@@ -410,7 +428,8 @@
             <div class="section-header">
                 <span class="section-tag">Reverse Process</span>
                 <h2>The Decoding Process</h2>
-                <p class="section-desc">Scanning reverses the encoding pipeline. Click through each decoding step to see how your phone reads a QR code.</p>
+                <p class="section-desc">Scanning reverses the encoding pipeline. Click through each decoding step to see
+                    how your phone reads a QR code.</p>
             </div>
             <div class="decoding-timeline">
                 <div class="decode-step" data-decode="1">
@@ -419,7 +438,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>1. Detection & Localization</h3>
-                        <p>Camera captures image. Finder patterns (the three big squares) are identified using their unique 1:1:3:1:1 ratio. Orientation determined.</p>
+                        <p>Camera captures image. Finder patterns (the three big squares) are identified using their
+                            unique 1:1:3:1:1 ratio. Orientation determined.</p>
                         <div class="decode-visual" id="decode-vis-1">
                             <canvas width="200" height="200"></canvas>
                         </div>
@@ -431,7 +451,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>2. Perspective Correction</h3>
-                        <p>Homography transformation applied to correct skew, tilt, and distortion from viewing angle.</p>
+                        <p>Homography transformation applied to correct skew, tilt, and distortion from viewing angle.
+                        </p>
                         <div class="decode-visual" id="decode-vis-2">
                             <canvas width="200" height="200"></canvas>
                         </div>
@@ -443,7 +464,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>3. Grid Sampling</h3>
-                        <p>Modules extracted from calibrated grid positions. Timing patterns used to confirm module boundaries.</p>
+                        <p>Modules extracted from calibrated grid positions. Timing patterns used to confirm module
+                            boundaries.</p>
                     </div>
                 </div>
                 <div class="decode-step" data-decode="4">
@@ -452,7 +474,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>4. Format Reading</h3>
-                        <p>Mask pattern and ECC level extracted from format information bits adjacent to finder patterns.</p>
+                        <p>Mask pattern and ECC level extracted from format information bits adjacent to finder
+                            patterns.</p>
                     </div>
                 </div>
                 <div class="decode-step" data-decode="5">
@@ -461,7 +484,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>5. Unmasking</h3>
-                        <p>Applied mask reversed using XOR operation, revealing raw data and error correction modules.</p>
+                        <p>Applied mask reversed using XOR operation, revealing raw data and error correction modules.
+                        </p>
                     </div>
                 </div>
                 <div class="decode-step" data-decode="6">
@@ -470,7 +494,8 @@
                     </div>
                     <div class="decode-content">
                         <h3>6. Reed-Solomon Decoding</h3>
-                        <p>Data reconstructed, errors detected and corrected using ECC blocks. Damaged modules repaired.</p>
+                        <p>Data reconstructed, errors detected and corrected using ECC blocks. Damaged modules repaired.
+                        </p>
                     </div>
                 </div>
                 <div class="decode-step" data-decode="7">
@@ -492,13 +517,15 @@
             <div class="section-header">
                 <span class="section-tag">Try It Yourself</span>
                 <h2>Interactive QR Code Generator</h2>
-                <p class="section-desc">Generate real, scannable QR codes. Watch version and capacity update in real-time.</p>
+                <p class="section-desc">Generate real, scannable QR codes. Watch version and capacity update in
+                    real-time.</p>
             </div>
             <div class="generator-layout">
                 <div class="generator-controls">
                     <div class="gen-field">
                         <label for="gen-input">Enter Your Text</label>
-                        <textarea id="gen-input" rows="3" placeholder="Type or paste any content to encode...">Hello, QR World!</textarea>
+                        <textarea id="gen-input" rows="3"
+                            placeholder="Type or paste any content to encode...">Hello, QR World!</textarea>
                         <div class="gen-char-count"><span id="gen-char-count">16</span> characters</div>
                     </div>
                     <div class="gen-field">
@@ -550,17 +577,20 @@
                 <div class="fact-card">
                     <div class="fact-icon">🔄</div>
                     <h3>Dynamic QR Codes</h3>
-                    <p>Modifiable redirect URLs without changing the physical code — ideal for campaigns and tracking</p>
+                    <p>Modifiable redirect URLs without changing the physical code — ideal for campaigns and tracking
+                    </p>
                 </div>
                 <div class="fact-card">
                     <div class="fact-icon">🎨</div>
                     <h3>Styled QR Codes</h3>
-                    <p>Logos and colors embedded by exploiting error correction — up to 30% of modules can be customized</p>
+                    <p>Logos and colors embedded by exploiting error correction — up to 30% of modules can be customized
+                    </p>
                 </div>
                 <div class="fact-card">
                     <div class="fact-icon">⚠️</div>
                     <h3>Security Risks</h3>
-                    <p>Quishing attacks (QR phishing) redirect to malicious sites — always verify destination before scanning</p>
+                    <p>Quishing attacks (QR phishing) redirect to malicious sites — always verify destination before
+                        scanning</p>
                 </div>
             </div>
             <div class="big-stats">
@@ -594,15 +624,15 @@
                     <div class="team-cards">
                         <div class="team-card">
                             <div class="team-avatar">MA</div>
-                            <div class="team-name">Miloudi Ahmed<br><span>Aboubaker Esseddik</span></div>
+                            <div class="team-name">Miloudi<br><span>Ahmed Aboubaker Esseddik</span></div>
                         </div>
                         <div class="team-card">
                             <div class="team-avatar">RF</div>
-                            <div class="team-name">Rabahi Mohamed<br><span>Fouad</span></div>
+                            <div class="team-name">Rabahi<br><span>Mohamed Fouad</span></div>
                         </div>
                         <div class="team-card">
                             <div class="team-avatar">AM</div>
-                            <div class="team-name">Ameur Mohammed<br><span>Menouer</span></div>
+                            <div class="team-name">Ameur<br><span>Mohammed Menouer</span></div>
                         </div>
                     </div>
                 </div>
@@ -616,7 +646,7 @@
                         </div>
                         <div class="team-card">
                             <div class="team-avatar">SM</div>
-                            <div class="team-name">Saidane Mohamed<br><span>Elamine</span></div>
+                            <div class="team-name">Saidane<br><span>Mohamed Elamine</span></div>
                         </div>
                     </div>
                 </div>
@@ -627,7 +657,8 @@
     <!-- Footer -->
     <footer id="footer">
         <div class="footer-content">
-            <p>A QR code packs <strong>geometry</strong>, <strong>Galois algebra</strong>, and <strong>information theory</strong> into 2 cm² — mathematics made visible.</p>
+            <p>A QR code packs <strong>geometry</strong>, <strong>Galois algebra</strong>, and <strong>information
+                    theory</strong> into 2 cm² — mathematics made visible.</p>
             <p class="footer-sub">Interactive QR Code Simulation — Built for Presentation</p>
         </div>
     </footer>
@@ -635,4 +666,5 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
